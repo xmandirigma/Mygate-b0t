@@ -23,7 +23,7 @@
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/rmndkyl/mygate-bot1.git
+    git clone https://github.com/xmandirigma/mygate-bot1
     cd mygate-bot1
     ```
 
