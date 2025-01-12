@@ -23,8 +23,8 @@
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/xmandirigma/mygate-bot1
-    cd mygate-bot1
+    git clone https://github.com/xmandirigma/mygate-b0t
+    cd mygate-b0t
     ```
 
 2. Install the required dependencies:
