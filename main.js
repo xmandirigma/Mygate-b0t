@@ -188,7 +188,7 @@ async function registerNode(token, proxy = null, retryCount = 0) {
             );
             log.info(`Retrying in ${delay/1000} seconds...`);
             await new Promise(resolve => setTimeout(resolve, delay));
-            return registerNode(token, proxy, retryCount + 1);
+            return registerNode(token, retryCount + 1);
         } else {
             log.error("Max retries exceeded; giving up on registration.");
             return null;
@@ -245,6 +245,11 @@ async function main() {
 
     try {
         const tokens = readFile("tokens.txt");
+        const proxies = readFile("proxy.txt");
+        
+        if (proxies.length === 0) {
+            log.error("No proxies found in proxy.txt file");
+            return;
         }
         
         log.info(`Loaded ${proxies.length} proxies`);
