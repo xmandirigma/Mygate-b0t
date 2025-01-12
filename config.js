@@ -16,5 +16,9 @@ export const config = {
         reconnectInterval: 5000,
         maxConcurrentConnections: 50,
         pingInterval: 30000
+    },
+    proxy: {  // Add this section
+        testTimeout: 5000,
+        rotationInterval: 600000 // 10 minutes
     }
 };
