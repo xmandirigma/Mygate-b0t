@@ -196,22 +196,16 @@ async function registerNode(token, proxy = null, retryCount = 0) {
     }
 }
 
-async function confirmUser(token, proxy = null) {
-    const agent = proxy ? new HttpsProxyAgent(proxy) : null;
-    try {
+async function confirmUser(token) {
         const confirm = await fetch(`${config.api.baseUrl}${config.api.endpoints.referrals}`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${token}`,
             },
-            body: JSON.stringify({}),
-            agent: agent,
+            body: JSON.stringify({})
         });
         const confirmData = await confirm.json();
         log.info("Confirm user response:", confirmData);
-    } catch (error) {
-        log.error("Error confirming user:", error.message);
-        throw error;
     }
 }
 
