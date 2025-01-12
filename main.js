@@ -4,8 +4,9 @@ import { randomUUID } from 'crypto';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import fs from 'fs';
 import log from './utils/logger.js';
-import banner from './utils/banner.js';
+import bedduSalama from './utils/banner.js';
 import { config } from './config.js';
+import { ProxyManager } from './utils/proxy-manager.js';
 import { RateLimiter } from './utils/rate-limiter.js';
 
 function readFile(pathFile) {
@@ -255,7 +256,7 @@ async function getUserInfo(token, proxy = null) {
 }
 
 async function main() {
-    log.info(banner);
+    log.info(bedduSalama);
     const activeConnections = new Set();
     const rateLimiter = new RateLimiter(100, 60000);
 
