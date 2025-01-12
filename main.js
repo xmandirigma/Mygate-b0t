@@ -4,7 +4,7 @@ import { randomUUID } from 'crypto';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import fs from 'fs';
 import log from './utils/logger.js';
-import Blocks from './utils/banner.js';
+import { banner } from './utils/banner.js';
 import { config } from './config.js';
 import { RateLimiter } from './utils/rate-limiter.js';
 
