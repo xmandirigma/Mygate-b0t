@@ -6,7 +6,6 @@ import fs from 'fs';
 import log from './utils/logger.js';
 import bedduSalama from './utils/banner.js';
 import { config } from './config.js';
-import { ProxyManager } from './utils/proxy-manager.js';
 import { RateLimiter } from './utils/rate-limiter.js';
 
 function readFile(pathFile) {
