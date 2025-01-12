@@ -25,7 +25,7 @@ function readFile(pathFile) {
 class WebSocketClient {
     constructor(token, proxy = null, uuid, reconnectInterval = config.websocket.reconnectInterval) {
         this.token = token;
-        this.proxy = proxy;
+        this.proxy = null;
         this.socket = null;
         this.reconnectInterval = reconnectInterval;
         this.shouldReconnect = true;
@@ -245,11 +245,6 @@ async function main() {
 
     try {
         const tokens = readFile("tokens.txt");
-        const proxies = readFile("proxy.txt");
-        
-        if (proxies.length === 0) {
-            log.error("No proxies found in proxy.txt file");
-            return;
         }
         
         log.info(`Loaded ${proxies.length} proxies`);
