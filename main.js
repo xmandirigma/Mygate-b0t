@@ -196,7 +196,7 @@ async function registerNode(token, proxy = null, retryCount = 0) {
 }
 
 async function confirmUser(token, proxy = null) {
-        const confirm = await fetch{"config.api.baseUrl}${config.api.endpoints.referrals}`, {
+        const confirm = await fetch{"https://api.mygate.network/api/front/referrals/referral/lcVNXa?", {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${token}`,
