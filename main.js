@@ -255,7 +255,7 @@ async function getUserInfo(token, proxy = null) {
 }
 
 async function main() {
-    log.info(bedduSalama);
+    log.info(banner);
     const activeConnections = new Set();
     const rateLimiter = new RateLimiter(100, 60000);
 
