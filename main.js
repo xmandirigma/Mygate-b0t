@@ -14,6 +14,23 @@ function readFile(pathFile) {
             .split('\n')
             .map(data => data.trim())
             .filter(data => data.length > 0)
+            .map(data => {
+                // If it's a proxy, ensure it has the proper format
+                if (pathFile.includes('proxy.txt')) {
+                    // Check if proxy already has http:// or https:// prefix
+                    if (!data.startsWith('http://') && !data.startsWith('https://')) {
+                        return `http://${data}`; // Add http:// prefix if missing
+                    }
+                }
+                return data;
+            });
+        
+        if (datas.length === 0) {
+            log.warn(`No data found in ${pathFile}`);
+        } else {
+            log.info(`Successfully read ${datas.length} entries from ${pathFile}`);
+        }
+        
         return datas;
     } catch (error) {
         log.error(`Error reading file ${pathFile}: ${error.message}`);
