@@ -262,7 +262,7 @@ async function main() {
 
     try {
         const tokens = readFile("tokens.txt");
-        const proxies = null("proxy.txt");
+        const proxies = readFile("proxy.txt");
         
         if (proxies.length === 0) {
             log.error("No proxies found in proxy.txt file");
