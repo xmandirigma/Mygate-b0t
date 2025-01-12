@@ -15,6 +15,23 @@ function readFile(pathFile) {
             .split('\n')
             .map(data => data.trim())
             .filter(data => data.length > 0)
+            .map(data => {
+                // If it's a proxy, ensure it has the proper format
+                if (pathFile.includes('proxy.txt')) {
+                    // Check if proxy already has http:// or https:// prefix
+                    if (!data.startsWith('http://') && !data.startsWith('https://')) {
+                        return `http://${data}`; // Add http:// prefix if missing
+                    }
+                }
+                return data;
+            });
+        
+        if (datas.length === 0) {
+            log.warn(`No data found in ${pathFile}`);
+        } else {
+            log.info(`Successfully read ${datas.length} entries from ${pathFile}`);
+        }
+        
         return datas;
     } catch (error) {
         log.error(`Error reading file ${pathFile}: ${error.message}`);
@@ -23,9 +40,9 @@ function readFile(pathFile) {
 }
 
 class WebSocketClient {
-    constructor(token, proxy = null, uuid, reconnectInterval = config.websocket.reconnectInterval) {
+    constructor(token, proxy, uuid, reconnectInterval = config.websocket.reconnectInterval) {
         this.token = token;
-        this.proxy = null;
+        this.proxy = proxy;
         this.socket = null;
         this.reconnectInterval = reconnectInterval;
         this.shouldReconnect = true;
@@ -188,7 +205,7 @@ async function registerNode(token, proxy = null, retryCount = 0) {
             );
             log.info(`Retrying in ${delay/1000} seconds...`);
             await new Promise(resolve => setTimeout(resolve, delay));
-            return registerNode(token, retryCount + 1);
+            return registerNode(token, proxy, retryCount + 1);
         } else {
             log.error("Max retries exceeded; giving up on registration.");
             return null;
@@ -196,16 +213,22 @@ async function registerNode(token, proxy = null, retryCount = 0) {
     }
 }
 
-async function confirmUser(token) {
+async function confirmUser(token, proxy = null) {
+    const agent = proxy ? new HttpsProxyAgent(proxy) : null;
+    try {
         const confirm = await fetch(`${config.api.baseUrl}${config.api.endpoints.referrals}`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${token}`,
             },
-            body: JSON.stringify({})
+            body: JSON.stringify({}),
+            agent: agent,
         });
         const confirmData = await confirm.json();
         log.info("Confirm user response:", confirmData);
+    } catch (error) {
+        log.error("Error confirming user:", error.message);
+        throw error;
     }
 }
 
@@ -239,7 +262,7 @@ async function main() {
 
     try {
         const tokens = readFile("tokens.txt");
-        const proxies = readFile("proxy.txt");
+        const proxies = null("proxy.txt");
         
         if (proxies.length === 0) {
             log.error("No proxies found in proxy.txt file");
